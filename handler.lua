@@ -1,3 +1,5 @@
+local responses = require "kong.tools.responses"
+
 local ngx_get_headers = ngx.req.get_headers
 
 local plugin = require("kong.plugins.base_plugin"):extend()
@@ -48,7 +50,6 @@ end
 local function doTestReferer(conf)
   local headers = ngx_get_headers()
   local refererOk = testListReferer(conf.referers, headers["Referer"])
-
   if not refererOk then
     return false, {status = 403, message = "Invalid referer"}
   end
@@ -59,7 +60,6 @@ end
 -- constructor
 function plugin:new()
   plugin.super.new(self, "referer")
-
 end
 
 
@@ -67,7 +67,7 @@ end
 function plugin:access(plugin_conf)
   plugin.super.access(self)
 
-  local ok, err = doTestReferer(conf)
+  local ok, err = doTestReferer(plugin_conf)
 
   if not ok then
     return responses.send(err.status, err.message)
