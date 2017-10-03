@@ -14,11 +14,7 @@ Kong server:
 $ curl -X POST http://kong:8001/apis/{api}/plugins \
     --data "name=cors" \
     --data "config.origins=http://mockbin.com" \
-    --data "config.methods=GET, POST" \
-    --data "config.headers=Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Auth-Token" \
-    --data "config.exposed_headers=X-Auth-Token" \
-    --data "config.credentials=true" \
-    --data "config.max_age=3600"
+    --data "config.referers=mockbin.com, *.mockbin.com" \
 ```
 
 `api`: The `id` or `name` of the API that this plugin configuration will target
@@ -30,7 +26,7 @@ more information.
 form parameter                             | default | description
 ---:                                       | ---     | ---
 `name`                                     |         | Name of the plugin to use, in this case: `referer`
-`config.referes`                           |         | A comma-separated list of allowed domains for the `referer` header. If you wish to allow all referer, add `*` as a single value to this configuration field.
+`config.referers`                           |         | A comma-separated list of allowed domains for the `referer` header. If you wish to allow all referer, add `*` as a single value to this configuration field.
 
 ----
 
