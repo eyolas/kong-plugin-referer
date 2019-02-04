@@ -1,4 +1,4 @@
-describe("Referer plugin [unit]", function()
+describe("Referer plugin (unit)", function()
   local handler
 
   setup(function()
