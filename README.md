@@ -1,6 +1,9 @@
+# Referer verification plugin
 
-Easily add referer access to your API by enabling
-this plugin.
+Easily add referer access to your API by enabling this plugin.
+
+_NOTE:_ This is not a secure plugin! it is based on the `referer` header that
+anyone could spoof. For security consider real authentication plugins.
 
 ----
 
