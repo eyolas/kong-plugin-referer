@@ -44,5 +44,32 @@ form parameter                             | default | description
 
 ----
 
+## Testing
+
+The code can be tested using the `kong-vagrant` environment.
+
+```shell
+# clone the repositories
+git clone http://github.com/kong/kong-vagrant.git
+cd kong-vagrant
+git clone http://github.com/kong/kong.git
+git clone http://github.com/eyolas/kong-plugin-referer.git
+
+# checkout the required Kong version
+export TEST_VERSION=0.13.1
+pushd kong; git checkout $(TEST_VERSION); popd
+
+# Build vagrant with same Kong version and the plugin
+KONG_VERSION=$(TEST_VERSION) KONG_PLUGIN_PATH=./kong-plugin-referer vagrant up
+vagrant ssh
+
+# Build dev environment
+cd /kong
+make dev
+
+# Execute tests
+bin/busted -v -o gtest /kong-plugin/spec
+```
+
 
 [api-object]: https://getkong.org/docs/latest/admin-api/#api-object
