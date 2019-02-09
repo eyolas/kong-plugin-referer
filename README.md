@@ -1,6 +1,9 @@
+# Referer verification plugin
 
-Easily add referer access to your API by enabling
-this plugin.
+Easily add referer access to your API by enabling this plugin.
+
+_NOTE:_ This is not a secure plugin! it is based on the `referer` header that
+anyone could spoof. For security consider real authentication plugins.
 
 ----
 
@@ -43,6 +46,33 @@ form parameter                             | default | description
 `config.referers`                           |         | A comma-separated list of allowed domains for the `referer` header. If you wish to allow all referer, add `*` as a single value to this configuration field.
 
 ----
+
+## Testing
+
+The code can be tested using the `kong-vagrant` environment.
+
+```shell
+# clone the repositories
+git clone http://github.com/kong/kong-vagrant.git
+cd kong-vagrant
+git clone http://github.com/kong/kong.git
+git clone http://github.com/eyolas/kong-plugin-referer.git
+
+# checkout the required Kong version
+export TEST_VERSION=0.13.1
+pushd kong; git checkout $(TEST_VERSION); popd
+
+# Build vagrant with same Kong version and the plugin
+KONG_VERSION=$(TEST_VERSION) KONG_PLUGIN_PATH=./kong-plugin-referer vagrant up
+vagrant ssh
+
+# Build dev environment
+cd /kong
+make dev
+
+# Execute tests
+bin/busted -v -o gtest /kong-plugin/spec
+```
 
 
 [api-object]: https://getkong.org/docs/latest/admin-api/#api-object
