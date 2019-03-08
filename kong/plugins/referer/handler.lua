@@ -73,6 +73,7 @@ do
         referer = "^.+$"
       else
         referer = referer:gsub("%.", "%%.")
+        referer = referer:gsub("%-", "%%-")
         referer = referer:gsub("*", "[^.]+")
       end
       conf.referers[i] = referer

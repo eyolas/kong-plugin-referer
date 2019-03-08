@@ -35,6 +35,32 @@ describe("Referer plugin (unit)", function()
   end)
 
 
+  it("validates a list of domains with - in them", function()
+    function test(conf, referer)
+      conf = handler._config_cache[{referers = conf}]  -- make sure to do pattern conversion
+      return handler._testListReferer(conf.referers, referer)
+    end
+
+    assert.is_true(test({"example-domain.com", }, "http://example-domain.com/plan"))
+    assert.is_true(test({"example-domain.com", }, "http://example-domain.com"))
+    assert.is_true(test({"www.example-domain.com", }, "http://www.example-domain.com/plan"))
+    assert.is_true(test({"www.example-domain.com", }, "http://www.example-domain.com"))
+    assert.is_false(test({"example-domain.com", }, "http://exampledomain.com/plan"))
+    assert.is_false(test({"example-domain.com", }, "http://exampledomain.com"))
+    assert.is_true(test({"*.example-domain.com", }, "http://a.example-domain.com/plan"))
+    assert.is_true(test({"*.example-domain.com", }, "http://a.example-domain.com"))
+
+    assert.is_true(test({"example-domain.com", }, "https://example-domain.com/plan"))
+    assert.is_true(test({"example-domain.com", }, "https://example-domain.com"))
+    assert.is_true(test({"www.example-domain.com", }, "https://www.example-domain.com/plan"))
+    assert.is_true(test({"www.example-domain.com", }, "https://www.example-domain.com"))
+    assert.is_false(test({"example-domain.com", }, "https://exampledomain.com/plan"))
+    assert.is_false(test({"example-domain.com", }, "https://exampledomain.com"))
+    assert.is_true(test({"*.example-domain.com", }, "https://a.example-domain.com/plan"))
+    assert.is_true(test({"*.example-domain.com", }, "https://a.example-domain.com"))
+  end)
+
+
   it("validates a list of wildcards", function()
     function test(conf, referer)
       conf = handler._config_cache[{referers = conf}]  -- make sure to do pattern conversion
