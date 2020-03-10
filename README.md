@@ -22,6 +22,13 @@ custom_plugins = referer
 
 ----
 
+## Compatibility
+
+| Plugin  | Kong version |
+|--|--|
+| v1.1-1 | < 1.x.x |
+| v2.0 | >= 2.0.x |
+
 ## Configuration
 
 Configuring the plugin is as simple as a single API call, you can configure and
