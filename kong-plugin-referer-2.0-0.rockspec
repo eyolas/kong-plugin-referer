@@ -1,12 +1,12 @@
 package = "kong-plugin-referer"
-version = "1.1-1"
+version = "2.0-0"
 
 local pluginName = package:match("^kong%-plugin%-(.+)$")
 
 supported_platforms = {"linux", "macosx"}
 source = {
   url = "git://github.com/eyolas/kong-plugin-referer",
-  tag = "v1.1.1"
+  tag = "v2.0.0"
 }
 
 description = {
