@@ -27,7 +27,7 @@ custom_plugins = referer
 | Plugin  | Kong version |
 |--|--|
 | v1.1-1 | < 1.x.x |
-| v2.0 | >= 2.0.x |
+| v2.0-0 | >= 2.0.x |
 
 ## Configuration
 
