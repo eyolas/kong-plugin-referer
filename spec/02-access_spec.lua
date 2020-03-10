@@ -1,12 +1,13 @@
 local helpers = require "spec.helpers"
 
+local PLUGIN_NAME = "referer"
 
 for _, strategy in helpers.each_strategy() do
   describe("Referer plugin (access) [#" .. strategy .. "]", function()
     local client
 
     lazy_setup(function()
-      local bp = helpers.get_db_utils(strategy)
+      local bp = helpers.get_db_utils(strategy, nil, { PLUGIN_NAME })
 
       do -- create a route with referer plugin
         local route1 = bp.routes:insert({
@@ -14,10 +15,10 @@ for _, strategy in helpers.each_strategy() do
         })
 
         bp.plugins:insert {
-          name = "referer",
-          route_id = route1.id,
+          name = PLUGIN_NAME,
+          route = { id = route1.id },
           config = {
-            referers = "*.kong.com,hello.mashape.com",
+            referers = { "*.kong.com", "hello.mashape.com" },
           },
         }
       end
@@ -28,10 +29,10 @@ for _, strategy in helpers.each_strategy() do
         })
 
         bp.plugins:insert {
-          name = "referer",
-          route_id = route2.id,
+          name = PLUGIN_NAME,
+          route = { id = route2.id },
           config = {
-            referers = "*",
+            referers = { "*" } ,
           },
         }
       end
@@ -40,11 +41,11 @@ for _, strategy in helpers.each_strategy() do
       assert(helpers.start_kong({
         -- set the strategy
         database = strategy,
-        -- use the custom test template to create a local mock server
+        -- -- use the custom test template to create a local mock server
         nginx_conf = "spec/fixtures/custom_nginx.template",
         -- set the config item to make sure our plugin gets loaded
         plugins = "bundled,referer",         -- since Kong CE 0.14
-        custom_plugins = "referer",          -- pre Kong CE 0.14
+        -- custom_plugins = "referer",          -- pre Kong CE 0.14
       }))
     end)
 

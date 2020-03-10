@@ -2,7 +2,6 @@ local LRU_SIZE = 1000   -- size of referer cache
 
 
 local ngx_get_headers = ngx.req.get_headers
-local responses = require "kong.tools.responses"
 local lrucache = require "resty.lrucache"
 
 
@@ -105,7 +104,7 @@ function plugin:access(plugin_conf)
 
   local ok, err = doTestReferer(plugin_conf)
   if not ok then
-    return responses.send(err.status, err.message)
+    return kong.response.exit(err.status, { message = err.message })
   end
 
 end

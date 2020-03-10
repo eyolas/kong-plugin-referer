@@ -59,7 +59,7 @@ git clone http://github.com/kong/kong.git
 git clone http://github.com/eyolas/kong-plugin-referer.git
 
 # checkout the required Kong version
-export TEST_VERSION=0.13.1
+export TEST_VERSION=2.0.2
 pushd kong; git checkout $(TEST_VERSION); popd
 
 # Build vagrant with same Kong version and the plugin
